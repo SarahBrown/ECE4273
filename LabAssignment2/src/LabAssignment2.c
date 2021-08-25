@@ -33,6 +33,7 @@ const unsigned char p2_score_leds[] = {6,5}; //p2
 const unsigned char p1_switches[] = {12,11,10}; //p2.8, 2.7, 2.6
 const unsigned char p2_switches[] = {4,3,2}; //p2.8, 2.7, 2.6
 
+unsigned int leds_state = 0b1111111111110000; // rgbp1p2
 //y = 2.727*10^-6 * x + 9.2*10^-6, y in usec, x = ticks
 void wait_ticks(int ticks) {
 	volatile int count;
@@ -55,13 +56,44 @@ void config_port(const unsigned char port[], int length, volatile unsigned int *
 	}
 }
 
+void change_led(const unsigned char led, volatile unsigned int * reg_pointer, int is_high) {
+	if (is_high) {
+			*reg_pointer |= (1<<led);
+	}
+
+	else {
+			*reg_pointer &= ~(1<<led);
+	}
+}
+
 unsigned int read_state(const unsigned char switches[], volatile unsigned int * reg_pointer, int color) {
 	int state_one = *reg_pointer & (1 << switches[color]);
 	wait_ticks(500); //about 1ms
 	int state_two = *reg_pointer & (1 << switches[color]);
 	wait_ticks(500);
 	int state_three = *reg_pointer & (1 << switches[color]);
-	return (state_one & state_two & state_three);
+	return (state_one & state_two & state_three); // anded together for debounce
+}
+
+void change_leds(int led_count) {
+	switch(led_count) {
+		case 0: change_led(p1_score_leds[0], FIO2PIN, leds_state & (1 << 0)); break;
+		case 1: change_led(p1_score_leds[1], FIO2PIN, leds_state & (1 << 1)); break;
+		case 2: change_led(p2_score_leds[0], FIO2PIN, leds_state & (1 << 2)); break;
+		case 3: change_led(p2_score_leds[1], FIO2PIN, leds_state & (1 << 3)); break;
+		case 4: change_led(blue_leds[0], FIO0PIN, leds_state & (1 << 4)); break;
+		case 5: change_led(blue_leds[1], FIO0PIN, leds_state & (1 << 5)); break;
+		case 6: change_led(blue_leds[2], FIO0PIN, leds_state & (1 << 6)); break;
+		case 7: change_led(blue_leds[3], FIO0PIN, leds_state & (1 << 7)); break;
+		case 8: change_led(green_leds[0], FIO0PIN, leds_state & (1 << 8)); break;
+		case 9: change_led(green_leds[1], FIO0PIN, leds_state & (1 << 9)); break;
+		case 10: change_led(green_leds[2], FIO0PIN, leds_state & (1 << 10)); break;
+		case 11: change_led(green_leds[3], FIO0PIN, leds_state & (1 << 11)); break;
+		case 12: change_led(red_leds[0], FIO0PIN, leds_state & (1 << 12)); break;
+		case 13: change_led(red_leds[1], FIO0PIN, leds_state & (1 << 13)); break;
+		case 14: change_led(red_leds[2], FIO0PIN, leds_state & (1 << 14)); break;
+		case 15: change_led(red_leds[3], FIO0PIN, leds_state & (1 << 15)); break;
+	}
 }
 
 void setup() {
@@ -75,12 +107,10 @@ void setup() {
 	config_port(p1_switches, NUM_P_SWITCHES, FIO2DIR, FALSE);
 	config_port(p2_switches, NUM_P_SWITCHES, FIO2DIR, FALSE);
 
-	// turn game leds on
-	config_port(red_leds, NUM_RED_LEDS, FIO0PIN, TRUE);
-	config_port(green_leds, NUM_GREEN_LEDS, FIO0PIN, TRUE);
-	config_port(blue_leds, NUM_BLUE_LEDS, FIO0PIN, TRUE);
-
-	// turn score leds off
+	//turn all off
+	config_port(red_leds, NUM_RED_LEDS, FIO0PIN, FALSE);
+	config_port(green_leds, NUM_GREEN_LEDS, FIO0PIN, FALSE);
+	config_port(blue_leds, NUM_BLUE_LEDS, FIO0PIN, FALSE);
 	config_port(p1_score_leds, NUM_SCORE_LEDS, FIO2PIN, FALSE);
 	config_port(p2_score_leds, NUM_SCORE_LEDS, FIO2PIN, FALSE);
 }
@@ -88,41 +118,43 @@ void setup() {
 
 int main(void) {
 	setup();
-	int p1_red = 1;
-	int p1_green = 1;
-	int p1_blue = 1;
-	int p2_red = 1;
-	int p2_green = 1;
-	int p2_blue = 1;
-
+	int p1_red = 1; int p1_green = 1; int p1_blue = 1;
+	int p2_red = 1; int p2_green = 1; int p2_blue = 1;
+	int led_count = 0; // to switch which led is on
 
     while(1) {
-    	p1_red = read_state(p1_switches, FIO2PIN, RED);
-    	p1_green = read_state(p1_switches, FIO2PIN, GREEN);
-    	p1_blue = read_state(p1_switches, FIO2PIN, BLUE);
-    	p2_red = read_state(p2_switches, FIO2PIN, RED);
-    	p2_green = read_state(p2_switches, FIO2PIN, GREEN);
-    	p2_blue = read_state(p2_switches, FIO2PIN, BLUE);
+    	change_leds(led_count);
+    	led_count++;
+//    	p1_red = read_state(p1_switches, FIO2PIN, RED);
+//    	p1_green = read_state(p1_switches, FIO2PIN, GREEN);
+//    	p1_blue = read_state(p1_switches, FIO2PIN, BLUE);
+//    	p2_red = read_state(p2_switches, FIO2PIN, RED);
+//    	p2_green = read_state(p2_switches, FIO2PIN, GREEN);
+//    	p2_blue = read_state(p2_switches, FIO2PIN, BLUE);
 
-    	if (p1_red == PRESSED) {
-    		config_port(red_leds, NUM_RED_LEDS, FIO0PIN, FALSE);
-    	}
-    	else {
-    		config_port(red_leds, NUM_RED_LEDS, FIO0PIN, TRUE);
-    	}
+//    	if (p1_red == PRESSED) {
+//    		config_port(red_leds, NUM_RED_LEDS, FIO0PIN, FALSE);
+//    	}
+//    	else {
+//    		config_port(red_leds, NUM_RED_LEDS, FIO0PIN, TRUE);
+//    	}
+//
+//    	if (p1_green == PRESSED) {
+//    		config_port(green_leds, NUM_GREEN_LEDS, FIO0PIN, FALSE);
+//    	}
+//    	else {
+//    		config_port(green_leds, NUM_GREEN_LEDS, FIO0PIN, TRUE);
+//    	}
+//
+//    	if (p1_blue == PRESSED) {
+//    		config_port(blue_leds, NUM_BLUE_LEDS, FIO0PIN, FALSE);
+//    	}
+//    	else {
+//    		config_port(blue_leds, NUM_BLUE_LEDS, FIO0PIN, TRUE);
+//    	}
 
-    	if (p1_green == PRESSED) {
-    		config_port(green_leds, NUM_GREEN_LEDS, FIO0PIN, FALSE);
-    	}
-    	else {
-    		config_port(green_leds, NUM_GREEN_LEDS, FIO0PIN, TRUE);
-    	}
-
-    	if (p1_blue == PRESSED) {
-    		config_port(blue_leds, NUM_BLUE_LEDS, FIO0PIN, FALSE);
-    	}
-    	else {
-    		config_port(blue_leds, NUM_BLUE_LEDS, FIO0PIN, TRUE);
+    	if(led_count > 15) {
+    		led_count = 0;
     	}
     }
     return 0 ;
