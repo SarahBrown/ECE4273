@@ -1,0 +1,458 @@
+Archive member included to satisfy reference by file (symbol)
+
+d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+                              ./src/cr_startup_lpc175x_6x.o (__main)
+
+Discarded input sections
+
+ .group         0x00000000        0xc ./src/LabAssignment2.o
+ .text          0x00000000        0x0 ./src/LabAssignment2.o
+ .data          0x00000000        0x0 ./src/LabAssignment2.o
+ .bss           0x00000000        0x0 ./src/LabAssignment2.o
+ .text.wait_ticks
+                0x00000000       0x28 ./src/LabAssignment2.o
+ .text.read_state
+                0x00000000       0x4c ./src/LabAssignment2.o
+ .group         0x00000000        0xc ./src/cr_startup_lpc175x_6x.o
+ .text          0x00000000        0x0 ./src/cr_startup_lpc175x_6x.o
+ .data          0x00000000        0x0 ./src/cr_startup_lpc175x_6x.o
+ .bss           0x00000000        0x0 ./src/cr_startup_lpc175x_6x.o
+ .debug_macro   0x00000000      0xaa8 ./src/cr_startup_lpc175x_6x.o
+ .group         0x00000000        0xc ./src/crp.o
+ .group         0x00000000        0xc ./src/crp.o
+ .text          0x00000000        0x0 ./src/crp.o
+ .data          0x00000000        0x0 ./src/crp.o
+ .bss           0x00000000        0x0 ./src/crp.o
+ .debug_macro   0x00000000      0xaa8 ./src/crp.o
+ .text          0x00000000        0x0 d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+ .data          0x00000000        0x0 d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+ .bss           0x00000000        0x0 d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+MFlash512        0x00000000         0x00080000         xr
+RamLoc32         0x10000000         0x00008000         xrw
+RamAHB32         0x2007c000         0x00008000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./src/LabAssignment2.o
+LOAD ./src/cr_startup_lpc175x_6x.o
+LOAD ./src/crp.o
+START GROUP
+LOAD d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a
+LOAD d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7-m/nofp\libcr_eabihelpers.a
+LOAD d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7-m/nofp\libgcc.a
+END GROUP
+                0x00000000                __base_MFlash512 = 0x0
+                0x00000000                __base_Flash = 0x0
+                0x00080000                __top_MFlash512 = 0x80000
+                0x00080000                __top_Flash = 0x80000
+                0x10000000                __base_RamLoc32 = 0x10000000
+                0x10000000                __base_RAM = 0x10000000
+                0x10008000                __top_RamLoc32 = 0x10008000
+                0x10008000                __top_RAM = 0x10008000
+                0x2007c000                __base_RamAHB32 = 0x2007c000
+                0x2007c000                __base_RAM2 = 0x2007c000
+                0x20084000                __top_RamAHB32 = 0x20084000
+                0x20084000                __top_RAM2 = 0x20084000
+
+.text           0x00000000      0x69c
+ FILL mask 0xff
+                0x00000000                __vectors_start__ = ABSOLUTE (.)
+ *(.isr_vector)
+ .isr_vector    0x00000000       0xcc ./src/cr_startup_lpc175x_6x.o
+                0x00000000                g_pfnVectors
+                0x000000cc                . = ALIGN (0x4)
+                0x000000cc                __section_table_start = .
+                0x000000cc                __data_section_table = .
+                0x000000cc        0x4 LONG 0x69c LOADADDR (.data)
+                0x000000d0        0x4 LONG 0x10000000 ADDR (.data)
+                0x000000d4        0x4 LONG 0x4 SIZEOF (.data)
+                0x000000d8        0x4 LONG 0x69c LOADADDR (.data_RAM2)
+                0x000000dc        0x4 LONG 0x2007c000 ADDR (.data_RAM2)
+                0x000000e0        0x4 LONG 0x0 SIZEOF (.data_RAM2)
+                0x000000e4                __data_section_table_end = .
+                0x000000e4                __bss_section_table = .
+                0x000000e4        0x4 LONG 0x10000004 ADDR (.bss)
+                0x000000e8        0x4 LONG 0x0 SIZEOF (.bss)
+                0x000000ec        0x4 LONG 0x2007c000 ADDR (.bss_RAM2)
+                0x000000f0        0x4 LONG 0x0 SIZEOF (.bss_RAM2)
+                0x000000f4                __bss_section_table_end = .
+                0x000000f4                __section_table_end = .
+ *(.after_vectors*)
+ .after_vectors
+                0x000000f4      0x12c ./src/cr_startup_lpc175x_6x.o
+                0x000000f4                data_init
+                0x00000138                bss_init
+                0x00000170                ResetISR
+                0x000001e4                NMI_Handler
+                0x000001ea                HardFault_Handler
+                0x000001f0                MemManage_Handler
+                0x000001f6                BusFault_Handler
+                0x000001fc                UsageFault_Handler
+                0x00000202                SVC_Handler
+                0x00000208                DebugMon_Handler
+                0x0000020e                PendSV_Handler
+                0x00000214                SysTick_Handler
+                0x0000021a                EINT3_IRQHandler
+                0x0000021a                CANActivity_IRQHandler
+                0x0000021a                TIMER3_IRQHandler
+                0x0000021a                UART0_IRQHandler
+                0x0000021a                UART1_IRQHandler
+                0x0000021a                EINT2_IRQHandler
+                0x0000021a                USBActivity_IRQHandler
+                0x0000021a                IntDefaultHandler
+                0x0000021a                PLL0_IRQHandler
+                0x0000021a                I2C0_IRQHandler
+                0x0000021a                I2C1_IRQHandler
+                0x0000021a                SSP0_IRQHandler
+                0x0000021a                I2S_IRQHandler
+                0x0000021a                I2C2_IRQHandler
+                0x0000021a                RTC_IRQHandler
+                0x0000021a                TIMER0_IRQHandler
+                0x0000021a                SPI_IRQHandler
+                0x0000021a                RIT_IRQHandler
+                0x0000021a                EINT1_IRQHandler
+                0x0000021a                TIMER1_IRQHandler
+                0x0000021a                UART2_IRQHandler
+                0x0000021a                ADC_IRQHandler
+                0x0000021a                SSP1_IRQHandler
+                0x0000021a                USB_IRQHandler
+                0x0000021a                BOD_IRQHandler
+                0x0000021a                PLL1_IRQHandler
+                0x0000021a                WDT_IRQHandler
+                0x0000021a                PWM1_IRQHandler
+                0x0000021a                QEI_IRQHandler
+                0x0000021a                EINT0_IRQHandler
+                0x0000021a                CAN_IRQHandler
+                0x0000021a                DMA_IRQHandler
+                0x0000021a                TIMER2_IRQHandler
+                0x0000021a                UART3_IRQHandler
+                0x0000021a                MCPWM_IRQHandler
+                0x0000021a                ENET_IRQHandler
+                0x000002fc                . = 0x2fc
+ *fill*         0x00000220       0xdc ff
+                0x000002fc                PROVIDE (__CRP_WORD_START__ = .)
+ *(.crp)
+ .crp           0x000002fc        0x4 ./src/crp.o
+                0x000002fc                CRP_WORD
+                0x00000300                PROVIDE (__CRP_WORD_END__ = .)
+                0x00000001                ASSERT (! ((__CRP_WORD_START__ == __CRP_WORD_END__)), Linker CRP Enabled, but no CRP_WORD provided within application)
+ *(.text*)
+ .text.config_port
+                0x00000300       0x7a ./src/LabAssignment2.o
+                0x00000300                config_port
+ .text.change_led
+                0x0000037a       0x46 ./src/LabAssignment2.o
+                0x0000037a                change_led
+ .text.only_one
+                0x000003c0       0x3a ./src/LabAssignment2.o
+                0x000003c0                only_one
+ *fill*         0x000003fa        0x2 ff
+ .text.change_leds
+                0x000003fc      0x17c ./src/LabAssignment2.o
+                0x000003fc                change_leds
+ .text.setup    0x00000578       0xc4 ./src/LabAssignment2.o
+                0x00000578                setup
+ .text.main     0x0000063c       0x3e ./src/LabAssignment2.o
+                0x0000063c                main
+ .text.__weak_main
+                0x0000067a        0x4 d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+                0x0000067a                __weak_main
+                0x0000067a                __main
+ *(.rodata .rodata.* .constdata .constdata.*)
+ *fill*         0x0000067e        0x2 ff
+ .rodata.red_leds
+                0x00000680        0x4 ./src/LabAssignment2.o
+                0x00000680                red_leds
+ .rodata.green_leds
+                0x00000684        0x4 ./src/LabAssignment2.o
+                0x00000684                green_leds
+ .rodata.blue_leds
+                0x00000688        0x4 ./src/LabAssignment2.o
+                0x00000688                blue_leds
+ .rodata.p1_score_leds
+                0x0000068c        0x2 ./src/LabAssignment2.o
+                0x0000068c                p1_score_leds
+ *fill*         0x0000068e        0x2 ff
+ .rodata.p2_score_leds
+                0x00000690        0x2 ./src/LabAssignment2.o
+                0x00000690                p2_score_leds
+ *fill*         0x00000692        0x2 ff
+ .rodata.p1_switches
+                0x00000694        0x3 ./src/LabAssignment2.o
+                0x00000694                p1_switches
+ *fill*         0x00000697        0x1 ff
+ .rodata.p2_switches
+                0x00000698        0x3 ./src/LabAssignment2.o
+                0x00000698                p2_switches
+                0x0000069c                . = ALIGN (0x4)
+ *fill*         0x0000069b        0x1 ff
+
+.glue_7         0x0000069c        0x0
+ .glue_7        0x0000069c        0x0 linker stubs
+
+.glue_7t        0x0000069c        0x0
+ .glue_7t       0x0000069c        0x0 linker stubs
+
+.vfp11_veneer   0x0000069c        0x0
+ .vfp11_veneer  0x0000069c        0x0 linker stubs
+
+.v4_bx          0x0000069c        0x0
+ .v4_bx         0x0000069c        0x0 linker stubs
+
+.iplt           0x0000069c        0x0
+ .iplt          0x0000069c        0x0 ./src/LabAssignment2.o
+
+.rel.dyn        0x0000069c        0x0
+ .rel.iplt      0x0000069c        0x0 ./src/LabAssignment2.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+
+.ARM.exidx      0x0000069c        0x0
+                0x0000069c                __exidx_start = .
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x0000069c                __exidx_end = .
+                0x0000069c                _etext = .
+
+.data_RAM2      0x2007c000        0x0 load address 0x0000069c
+ FILL mask 0xff
+                [!provide]                PROVIDE (__start_data_RAM2 = .)
+                [!provide]                PROVIDE (__start_data_RamAHB32 = .)
+ *(.ramfunc.$RAM2)
+ *(.ramfunc.$RamAHB32)
+ *(.data.$RAM2)
+ *(.data.$RamAHB32)
+ *(.data.$RAM2.*)
+ *(.data.$RamAHB32.*)
+                0x2007c000                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__end_data_RAM2 = .)
+                [!provide]                PROVIDE (__end_data_RamAHB32 = .)
+
+.uninit_RESERVED
+                0x10000000        0x0
+                0x10000000                _start_uninit_RESERVED = .
+ *(.bss.$RESERVED*)
+                0x10000000                . = ALIGN (0x4)
+                0x10000000                _end_uninit_RESERVED = .
+
+.data           0x10000000        0x4 load address 0x0000069c
+ FILL mask 0xff
+                0x10000000                _data = .
+                [!provide]                PROVIDE (__start_data_RAM = .)
+                [!provide]                PROVIDE (__start_data_RamLoc32 = .)
+ *(vtable)
+ *(.ramfunc*)
+ *(CodeQuickAccess)
+ *(DataQuickAccess)
+ *(RamFunction)
+ *(.data*)
+ .data.leds_state
+                0x10000000        0x4 ./src/LabAssignment2.o
+                0x10000000                leds_state
+                0x10000004                . = ALIGN (0x4)
+                0x10000004                _edata = .
+                [!provide]                PROVIDE (__end_data_RAM = .)
+                [!provide]                PROVIDE (__end_data_RamLoc32 = .)
+
+.igot.plt       0x10000004        0x0 load address 0x000006a0
+ .igot.plt      0x10000004        0x0 ./src/LabAssignment2.o
+
+.bss_RAM2       0x2007c000        0x0
+                [!provide]                PROVIDE (__start_bss_RAM2 = .)
+                [!provide]                PROVIDE (__start_bss_RamAHB32 = .)
+ *(.bss.$RAM2)
+ *(.bss.$RamAHB32)
+ *(.bss.$RAM2.*)
+ *(.bss.$RamAHB32.*)
+                0x2007c000                . = ALIGN ((. != 0x0)?0x4:0x1)
+                [!provide]                PROVIDE (__end_bss_RAM2 = .)
+                [!provide]                PROVIDE (__end_bss_RamAHB32 = .)
+
+.bss            0x10000004        0x0
+                0x10000004                _bss = .
+                [!provide]                PROVIDE (__start_bss_RAM = .)
+                [!provide]                PROVIDE (__start_bss_RamLoc32 = .)
+ *(.bss*)
+ *(COMMON)
+                0x10000004                . = ALIGN (0x4)
+                0x10000004                _ebss = .
+                [!provide]                PROVIDE (__end_bss_RAM = .)
+                [!provide]                PROVIDE (__end_bss_RamLoc32 = .)
+                [!provide]                PROVIDE (end = .)
+
+.noinit_RAM2    0x2007c000        0x0
+                [!provide]                PROVIDE (__start_noinit_RAM2 = .)
+                [!provide]                PROVIDE (__start_noinit_RamAHB32 = .)
+ *(.noinit.$RAM2)
+ *(.noinit.$RamAHB32)
+ *(.noinit.$RAM2.*)
+ *(.noinit.$RamAHB32.*)
+                0x2007c000                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__end_noinit_RAM2 = .)
+                [!provide]                PROVIDE (__end_noinit_RamAHB32 = .)
+
+.noinit         0x10000004        0x0
+                0x10000004                _noinit = .
+                [!provide]                PROVIDE (__start_noinit_RAM = .)
+                [!provide]                PROVIDE (__start_noinit_RamLoc32 = .)
+ *(.noinit*)
+                0x10000004                . = ALIGN (0x4)
+                0x10000004                _end_noinit = .
+                [!provide]                PROVIDE (__end_noinit_RAM = .)
+                [!provide]                PROVIDE (__end_noinit_RamLoc32 = .)
+                [!provide]                PROVIDE (_pvHeapStart = DEFINED (__user_heap_base)?__user_heap_base:.)
+                0x10008000                PROVIDE (_vStackTop = DEFINED (__user_stack_top)?__user_stack_top:(__top_RamLoc32 - 0x0))
+                0xefff74da                PROVIDE (__valid_user_code_checksum = (0x0 - ((((((_vStackTop + (ResetISR + 0x1)) + (NMI_Handler + 0x1)) + (HardFault_Handler + 0x1)) + (DEFINED (MemManage_Handler)?MemManage_Handler:0x0 + 0x1)) + (DEFINED (BusFault_Handler)?BusFault_Handler:0x0 + 0x1)) + (DEFINED (UsageFault_Handler)?UsageFault_Handler:0x0 + 0x1))))
+                0x00000000                _image_start = LOADADDR (.text)
+                0x000006a0                _image_end = (LOADADDR (.data) + SIZEOF (.data))
+                0x000006a0                _image_size = (_image_end - _image_start)
+OUTPUT(LabAssignment2.axf elf32-littlearm)
+LOAD linker stubs
+
+.debug_info     0x00000000      0x659
+ .debug_info    0x00000000      0x3a7 ./src/LabAssignment2.o
+ .debug_info    0x000003a7      0x272 ./src/cr_startup_lpc175x_6x.o
+ .debug_info    0x00000619       0x40 ./src/crp.o
+
+.debug_abbrev   0x00000000      0x298
+ .debug_abbrev  0x00000000      0x149 ./src/LabAssignment2.o
+ .debug_abbrev  0x00000149      0x117 ./src/cr_startup_lpc175x_6x.o
+ .debug_abbrev  0x00000260       0x38 ./src/crp.o
+
+.debug_aranges  0x00000000       0xf0
+ .debug_aranges
+                0x00000000       0x58 ./src/LabAssignment2.o
+ .debug_aranges
+                0x00000058       0x80 ./src/cr_startup_lpc175x_6x.o
+ .debug_aranges
+                0x000000d8       0x18 ./src/crp.o
+
+.debug_ranges   0x00000000       0xb8
+ .debug_ranges  0x00000000       0x48 ./src/LabAssignment2.o
+ .debug_ranges  0x00000048       0x70 ./src/cr_startup_lpc175x_6x.o
+
+.debug_macro    0x00000000      0xb7e
+ .debug_macro   0x00000000       0x6b ./src/LabAssignment2.o
+ .debug_macro   0x0000006b      0xaa8 ./src/LabAssignment2.o
+ .debug_macro   0x00000b13       0x1d ./src/cr_startup_lpc175x_6x.o
+ .debug_macro   0x00000b30       0x1a ./src/crp.o
+ .debug_macro   0x00000b4a       0x34 ./src/crp.o
+
+.debug_line     0x00000000      0x468
+ .debug_line    0x00000000      0x258 ./src/LabAssignment2.o
+ .debug_line    0x00000258      0x15f ./src/cr_startup_lpc175x_6x.o
+ .debug_line    0x000003b7       0xb1 ./src/crp.o
+
+.debug_str      0x00000000     0x32f0
+ .debug_str     0x00000000     0x3031 ./src/LabAssignment2.o
+                               0x3066 (size before relaxing)
+ .debug_str     0x00003031      0x1d6 ./src/cr_startup_lpc175x_6x.o
+                               0x2fa7 (size before relaxing)
+ .debug_str     0x00003207       0xe9 ./src/crp.o
+                               0x2eb4 (size before relaxing)
+
+.comment        0x00000000       0x4c
+ .comment       0x00000000       0x4c ./src/LabAssignment2.o
+                                 0x4d (size before relaxing)
+ .comment       0x0000004c       0x4d ./src/cr_startup_lpc175x_6x.o
+ .comment       0x0000004c       0x4d ./src/crp.o
+ .comment       0x0000004c       0x4d d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+
+.ARM.attributes
+                0x00000000       0x2d
+ .ARM.attributes
+                0x00000000       0x2d ./src/LabAssignment2.o
+ .ARM.attributes
+                0x0000002d       0x2d ./src/cr_startup_lpc175x_6x.o
+ .ARM.attributes
+                0x0000005a       0x33 ./src/crp.o
+ .ARM.attributes
+                0x0000008d       0x2d d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+
+.debug_frame    0x00000000      0x2a4
+ .debug_frame   0x00000000      0x134 ./src/LabAssignment2.o
+ .debug_frame   0x00000134      0x170 ./src/cr_startup_lpc175x_6x.o
+
+Cross Reference Table
+
+Symbol                                            File
+ADC_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+BOD_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+BusFault_Handler                                  ./src/cr_startup_lpc175x_6x.o
+CANActivity_IRQHandler                            ./src/cr_startup_lpc175x_6x.o
+CAN_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+CRP_WORD                                          ./src/crp.o
+DMA_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+DebugMon_Handler                                  ./src/cr_startup_lpc175x_6x.o
+EINT0_IRQHandler                                  ./src/cr_startup_lpc175x_6x.o
+EINT1_IRQHandler                                  ./src/cr_startup_lpc175x_6x.o
+EINT2_IRQHandler                                  ./src/cr_startup_lpc175x_6x.o
+EINT3_IRQHandler                                  ./src/cr_startup_lpc175x_6x.o
+ENET_IRQHandler                                   ./src/cr_startup_lpc175x_6x.o
+HardFault_Handler                                 ./src/cr_startup_lpc175x_6x.o
+I2C0_IRQHandler                                   ./src/cr_startup_lpc175x_6x.o
+I2C1_IRQHandler                                   ./src/cr_startup_lpc175x_6x.o
+I2C2_IRQHandler                                   ./src/cr_startup_lpc175x_6x.o
+I2S_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+IntDefaultHandler                                 ./src/cr_startup_lpc175x_6x.o
+MCPWM_IRQHandler                                  ./src/cr_startup_lpc175x_6x.o
+MemManage_Handler                                 ./src/cr_startup_lpc175x_6x.o
+NMI_Handler                                       ./src/cr_startup_lpc175x_6x.o
+PLL0_IRQHandler                                   ./src/cr_startup_lpc175x_6x.o
+PLL1_IRQHandler                                   ./src/cr_startup_lpc175x_6x.o
+PWM1_IRQHandler                                   ./src/cr_startup_lpc175x_6x.o
+PendSV_Handler                                    ./src/cr_startup_lpc175x_6x.o
+QEI_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+RIT_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+RTC_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+ResetISR                                          ./src/cr_startup_lpc175x_6x.o
+SPI_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+SSP0_IRQHandler                                   ./src/cr_startup_lpc175x_6x.o
+SSP1_IRQHandler                                   ./src/cr_startup_lpc175x_6x.o
+SVC_Handler                                       ./src/cr_startup_lpc175x_6x.o
+SysTick_Handler                                   ./src/cr_startup_lpc175x_6x.o
+TIMER0_IRQHandler                                 ./src/cr_startup_lpc175x_6x.o
+TIMER1_IRQHandler                                 ./src/cr_startup_lpc175x_6x.o
+TIMER2_IRQHandler                                 ./src/cr_startup_lpc175x_6x.o
+TIMER3_IRQHandler                                 ./src/cr_startup_lpc175x_6x.o
+UART0_IRQHandler                                  ./src/cr_startup_lpc175x_6x.o
+UART1_IRQHandler                                  ./src/cr_startup_lpc175x_6x.o
+UART2_IRQHandler                                  ./src/cr_startup_lpc175x_6x.o
+UART3_IRQHandler                                  ./src/cr_startup_lpc175x_6x.o
+USBActivity_IRQHandler                            ./src/cr_startup_lpc175x_6x.o
+USB_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+UsageFault_Handler                                ./src/cr_startup_lpc175x_6x.o
+WDT_IRQHandler                                    ./src/cr_startup_lpc175x_6x.o
+__bss_section_table_end                           ./src/cr_startup_lpc175x_6x.o
+__data_section_table                              ./src/cr_startup_lpc175x_6x.o
+__data_section_table_end                          ./src/cr_startup_lpc175x_6x.o
+__main                                            d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+                                                  ./src/cr_startup_lpc175x_6x.o
+__valid_user_code_checksum                        ./src/cr_startup_lpc175x_6x.o
+__weak_main                                       d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+_vStackTop                                        ./src/cr_startup_lpc175x_6x.o
+blue_leds                                         ./src/LabAssignment2.o
+bss_init                                          ./src/cr_startup_lpc175x_6x.o
+change_led                                        ./src/LabAssignment2.o
+change_leds                                       ./src/LabAssignment2.o
+config_port                                       ./src/LabAssignment2.o
+data_init                                         ./src/cr_startup_lpc175x_6x.o
+g_pfnVectors                                      ./src/cr_startup_lpc175x_6x.o
+green_leds                                        ./src/LabAssignment2.o
+leds_state                                        ./src/LabAssignment2.o
+main                                              ./src/LabAssignment2.o
+                                                  d:/nxp/mcuxpressoide_11.3.1_5262/ide/plugins/com.nxp.mcuxpresso.tools.win32_11.3.0.202008311133/tools/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libcr_c.a(__weak__main.o)
+only_one                                          ./src/LabAssignment2.o
+p1_score_leds                                     ./src/LabAssignment2.o
+p1_switches                                       ./src/LabAssignment2.o
+p2_score_leds                                     ./src/LabAssignment2.o
+p2_switches                                       ./src/LabAssignment2.o
+read_state                                        ./src/LabAssignment2.o
+red_leds                                          ./src/LabAssignment2.o
+setup                                             ./src/LabAssignment2.o
+wait_ticks                                        ./src/LabAssignment2.o
