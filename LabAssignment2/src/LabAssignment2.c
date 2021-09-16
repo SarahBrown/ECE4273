@@ -136,33 +136,7 @@ int main(void) {
     while(1) {
     	change_leds(led_count);
     	led_count++;
-//    	p1_red = read_state(p1_switches, FIO2PIN, RED);
-//    	p1_green = read_state(p1_switches, FIO2PIN, GREEN);
-//    	p1_blue = read_state(p1_switches, FIO2PIN, BLUE);
-//    	p2_red = read_state(p2_switches, FIO2PIN, RED);
-//    	p2_green = read_state(p2_switches, FIO2PIN, GREEN);
-//    	p2_blue = read_state(p2_switches, FIO2PIN, BLUE);
 
-//    	if (p1_red == PRESSED) {
-//    		config_port(red_leds, NUM_RED_LEDS, FIO0PIN, FALSE);
-//    	}
-//    	else {
-//    		config_port(red_leds, NUM_RED_LEDS, FIO0PIN, TRUE);
-//    	}
-//
-//    	if (p1_green == PRESSED) {
-//    		config_port(green_leds, NUM_GREEN_LEDS, FIO0PIN, FALSE);
-//    	}
-//    	else {
-//    		config_port(green_leds, NUM_GREEN_LEDS, FIO0PIN, TRUE);
-//    	}
-//
-//    	if (p1_blue == PRESSED) {
-//    		config_port(blue_leds, NUM_BLUE_LEDS, FIO0PIN, FALSE);
-//    	}
-//    	else {
-//    		config_port(blue_leds, NUM_BLUE_LEDS, FIO0PIN, TRUE);
-//    	}
 
     	if(led_count > 15) {
     		led_count = 0;
