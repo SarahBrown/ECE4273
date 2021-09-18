@@ -1,8 +1,0 @@
-LabAssignment2.c:43:6:wait_ticks	24	static
-LabAssignment2.c:50:6:config_port	32	static
-LabAssignment2.c:64:6:change_led	24	static
-LabAssignment2.c:74:6:only_one	24	static
-LabAssignment2.c:84:14:read_state	32	static
-LabAssignment2.c:91:6:change_leds	24	static
-LabAssignment2.c:110:6:setup	8	static
-LabAssignment2.c:130:5:main	40	static
