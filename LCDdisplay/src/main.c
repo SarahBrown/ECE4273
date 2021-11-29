@@ -1,3 +1,6 @@
+#include "stdio.h"
+#include "string.h"
+
 // define LPC1769 I2C registers
 #define PINSEL1 	(*(volatile unsigned int *)0x4002C004) // pin function select
 #define PCLKSEL0 	(*(volatile unsigned int *)0x400FC1A8) // peripheral clock select
@@ -29,7 +32,6 @@
 #define PCONP (*(volatile unsigned int *) 0x400FC0C4)
 
 // define pin registers
-#define PINSEL1 (*(volatile unsigned int *) 0x4002C004)
 #define PINSEL3 (*(volatile unsigned int *) 0x4002C00C)
 #define FIO0DIR (*(volatile unsigned int *)0x2009c000)
 #define FIO0PIN (*(volatile unsigned int *)0x2009c014)
@@ -41,6 +43,7 @@
 #define MCP_IODIRB 0x1 // MCP IO Pins DirB
 #define MCP_GPIOB 0x13 // GPIOB
 #define MCP_GPIOA 0x12 // GPIOA
+#define MCP_GPPUB 0x0D // pull-up resistor reg A
 
 // frequencies
 #define MATCH_FREQ_659 75873
@@ -53,6 +56,14 @@
 #define M 24
 #define N 1
 
+#define TRUE 1
+#define FALSE 0
+
+#define COMMAND 0
+#define DATA 1
+
+#define DAC_PIN 20 // pin p0.26
+#define CLEAR 0x01
 
 /*
  * Function to waste time
@@ -149,26 +160,48 @@ int button_press() {
 	return (data & 0x0F);
 }
 
-void lcd_write(int command) {
+void lcd_write(int command, int isData) {
 	// update dbo-db7 to match command code
 	i2c_start();
 	i2c_write(MCP_ADDR_W);
 	i2c_write(MCP_GPIOA);
 	i2c_write(command);
+	i2c_stop();
 
 	// drive r/~w low (but its grounded so don't need to)
 
-	// drive rs low to indicate this is a command
-	i2c_write(MCP_ADDR_W);
-	i2c_write(MCP_GPIOB);
-	i2c_write(0x08);
+	if (isData) {
+		// drive rs low to indicate this is a command
+		i2c_start();
+		i2c_write(MCP_ADDR_W);
+		i2c_write(MCP_GPIOB);
+		i2c_write(0x30);
+		i2c_stop();
+	}
+
+	else {
+		// drive rs low to indicate this is a command
+		i2c_start();
+		i2c_write(MCP_ADDR_W);
+		i2c_write(MCP_GPIOB);
+		i2c_write(0x20);
+		i2c_stop();
+	}
 
 	// drive E high than low to generate the pulse
 	// cpu is faster than 4MHz so might need a short delay after E is high to meet min pulse width req
+	i2c_start();
 	i2c_write(MCP_ADDR_W);
 	i2c_write(MCP_GPIOB);
-	i2c_write(0x04);
+	i2c_write(0x00);
+	i2c_stop();
+
 	wait_ticks(500);
+	i2c_start();
+	i2c_write(MCP_ADDR_W);
+	i2c_write(MCP_GPIOB);
+	i2c_write(0x20);
+	i2c_stop();
 	// wait 100 us for command to complete
 	wait_ticks(500);
 }
@@ -233,21 +266,28 @@ void i2c_init() {
 	i2c_write(0x00); // set a to output
 	i2c_stop();
 
-	// set all dir b to output
+	// set all dir b to output and input
 	i2c_start();
 	i2c_write(MCP_ADDR_W);
 	i2c_write(MCP_IODIRB);
 	i2c_write(0x0F); // set b0-b3 to input, b4-b7 to output
 	i2c_stop();
 
+	// GPPU
+	i2c_start();
+	i2c_write(MCP_ADDR_W);
+	i2c_write(MCP_GPPUB);
+	i2c_write(0x0F); // set GPIO PULL-UP RESISTOR REGISTER for B
+	i2c_stop();
+
 }
 
 void lcd_init() {
 	wait_ticks(20000); // wait 4ms after control signals and data signals are configured (configured in i2c setup)
-	lcd_write(0x38);
-	lcd_write(0x06);
-	lcd_write(0x0c);
-	lcd_write(0x01);
+	lcd_write(0x38, COMMAND); // selects full 8-bit bus and 2 line display
+	lcd_write(0x06, COMMAND);
+	lcd_write(0x0c, COMMAND);
+	lcd_write(0x01, COMMAND);
 	wait_ticks(20000); // wait 4ms
 }
 
@@ -277,11 +317,24 @@ void RIT_IRQHandler() {
 }
 
 void setup() {
-	clock_init();
+	clk_init();
 	rit_init();
 	dac_init();
 	i2c_init();
 	lcd_init();
+}
+
+void display_string(char *str) {
+	int len = strlen(str);
+
+	for (int i = 0; i < len; i++) {
+		char cur_char = str[i];
+		lcd_write(cur_char, DATA);
+	}
+}
+
+void display_char(char c) {
+	lcd_write(c, DATA);
 }
 
 int main(void) {
@@ -293,6 +346,9 @@ int main(void) {
 	//PINSEL3 |= (01<<22); // configure clkout as output
 
     while(1) {
-
+    	for (int i = 0; i < 10; i++) {
+    		display_char(i + '0');
+        	wait_ticks(10000000);
+    	}
     }
 }
