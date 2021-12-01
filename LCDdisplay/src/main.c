@@ -45,8 +45,17 @@
 #define MCP_GPIOA 0x12 // GPIOA
 #define MCP_GPPUB 0x0D // pull-up resistor reg A
 
+// RTC
+#define CCR  (*(volatile unsigned int *) 0x40024008) // clock control reg
+#define CIIR (*(volatile unsigned int *) 0x4002400C) // counter increment interrupt reg
+#define AMR  (*(volatile unsigned int *) 0x40024010) // alarm mask reg
+#define CTIME0 (*(volatile unsigned int *) 0x40024014)
+#define SEC (*(volatile unsigned int *) 0x40024020)
+#define MIN (*(volatile unsigned int *) 0x40024024)
+#define HOUR (*(volatile unsigned int *) 0x40024028)
+
 // frequencies
-#define MATCH_FREQ_659 75873
+#define MATCH_FREQ_659 75873 // 100 MHz/(659Hz*2) (for 50% square)
 #define MATCH_FREQ_523 95602
 
 // macros
@@ -62,8 +71,28 @@
 #define COMMAND 0
 #define DATA 1
 
+#define PRESSED 0
+#define UNPRESSED 1
+
+#define CHIMES 0
+
+#define MAIN_DISPLAY 0
+#define SET_TIME 1
+#define SET_TIMER 2
+
+#define RED 0
+#define BLUE 1
+#define WHITE 2
+#define GREEN 3
+
+#define SET_SECOND BLUE
+#define SET_MINUTE WHITE
+#define SET_HOUR GREEN
+
 #define DAC_PIN 20 // pin p0.26
 #define CLEAR 0x01
+
+int cur_mode = SET_TIME;
 
 /*
  * Function to waste time
@@ -285,9 +314,9 @@ void i2c_init() {
 void lcd_init() {
 	wait_ticks(20000); // wait 4ms after control signals and data signals are configured (configured in i2c setup)
 	lcd_write(0x38, COMMAND); // selects full 8-bit bus and 2 line display
-	lcd_write(0x06, COMMAND);
-	lcd_write(0x0c, COMMAND);
-	lcd_write(0x01, COMMAND);
+	lcd_write(0x06, COMMAND); // sets cursor to auto advance to the right
+	lcd_write(0x0c, COMMAND); // enables display only
+	lcd_write(0x01, COMMAND); // clears display and moves cursor to upper left
 	wait_ticks(20000); // wait 4ms
 }
 
@@ -316,12 +345,23 @@ void RIT_IRQHandler() {
 	RICTRL |= 1; // clears the interupt
 }
 
+void rtc_enable() {
+	PCONP |= (1 << 9); // turns on power to rtc
+	CCR &= ~(0 << 0); // time counter is disabled so it may be initialized
+	SEC = 0;
+	MIN = 0;
+	HOUR = 0;
+	CCR |= (1 << 0); // time counter is enabled so it may be initialized
+}
+
 void setup() {
 	clk_init();
 	rit_init();
 	dac_init();
 	i2c_init();
 	lcd_init();
+	rtc_enable();
+	wait_ticks(500);
 }
 
 void display_string(char *str) {
@@ -337,18 +377,115 @@ void display_char(char c) {
 	lcd_write(c, DATA);
 }
 
+void display_digits(int time_unit) {
+	display_char(time_unit/10 + '0');
+	display_char(time_unit%10 + '0');
+}
+
+int which_button(int button, int prev_button) {
+	if ((button & 0b1) == PRESSED && (prev_button & 0b1) == UNPRESSED) {
+		return RED;
+	}
+
+	else if (((button>>1) & 0b1) == PRESSED && ((prev_button>>1) & 0b1) == UNPRESSED) {
+		return BLUE;
+	}
+
+	else if (((button>>2) & 0b1) == PRESSED && ((prev_button>>2) & 0b1) == UNPRESSED) {
+		return WHITE;
+	}
+
+	else if (((button>>3) & 0b1) == PRESSED && ((prev_button>>3) & 0b1) == UNPRESSED) {
+		return GREEN;
+	}
+
+	return -1;
+}
+
+void main_display() {
+	int cur_sec = SEC;
+	int cur_min = MIN;
+	int cur_hour = HOUR;
+
+	lcd_write(0x80, COMMAND); // move cursor to line 1
+	display_string("TIME: ");
+	display_digits(cur_hour);
+	display_char(':');
+	display_digits(cur_min);
+	display_char(':');
+	display_digits(cur_sec);
+
+	lcd_write(0x94, COMMAND); // move cursor to line 3
+	display_string("Time:  B1 Alarm:  B2");
+	lcd_write(0xD4, COMMAND); // move cursor to line 3
+	display_string("Timer: B3 Chimes: B4");
+}
+
+void set_time(){
+	lcd_write(0x01, COMMAND); // clear display
+	CCR &= ~(0 << 0); // time counter is disabled so it may be initialized
+	int button=0xF; int prev_button=0xF;
+	int cur_sec = SEC; int cur_min = MIN; int cur_hour = HOUR;
+
+	button = button_press();
+	int increment_time = which_button(button, prev_button);
+
+	while (increment_time != RED) {
+		switch (increment_time) {
+			case SET_SECOND:
+				cur_sec++;
+				if (cur_sec > 59) cur_sec=0;
+				break;
+			case SET_MINUTE:
+				cur_min++;
+				if (cur_min > 59) cur_min=0;
+				break;
+			case SET_HOUR:
+				cur_hour++;
+				if (cur_hour > 59) cur_hour=0;
+				break;
+		}
+		lcd_write(0x80, COMMAND); // move cursor to line 1
+		display_string("TIME: ");
+		display_digits(cur_hour);
+		display_char(':');
+		display_digits(cur_min);
+		display_char(':');
+		display_digits(cur_sec);
+
+		prev_button = button;
+		button = button_press();
+		increment_time = which_button(button, prev_button);
+	}
+
+	cur_mode = MAIN_DISPLAY;
+	SEC = cur_sec;
+	MIN = cur_min;
+	HOUR = cur_hour;
+	CCR |= (1 << 0); // time counter is enabled so it may be initialized
+}
+
+
+
 int main(void) {
 	setup();
-	int button=0; int prev_button=0;
-
-	//CLKOUTCFG = (1 << 8) | (10 << 4); // enables clkout for debugging reasons and divides it by 10 for readability
-	//CLKOUTCFG = (1 << 8) | (9 << 4); // enables clkout for debugging reasons and divides it by 10 for readability
-	//PINSEL3 |= (01<<22); // configure clkout as output
+	int button=0xF; int prev_button=0xF; int new_mode = cur_mode;
 
     while(1) {
-    	for (int i = 0; i < 10; i++) {
-    		display_char(i + '0');
-        	wait_ticks(10000000);
+    	button = button_press();
+    	cur_mode = which_button(button, prev_button);
+
+    	switch(cur_mode){
+    		case MAIN_DISPLAY:
+    			main_display();
+    			break;
+    		case SET_TIME:
+    			set_time();
+    			break;
+    		default:
+    			main_display();
+    			break;
     	}
+    	prev_button = button;
     }
 }
