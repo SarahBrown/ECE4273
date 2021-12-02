@@ -152,30 +152,6 @@ void i2c_stop() {
     while (((I2C_CONSET >> 4) & 1) == 0) {} // wait for STO bit to return to 1
 }
 
-// Write Single Digit Num
-void write_num(int num, int side) {
-	// i2c and mcp stuff
-	i2c_start();
-	i2c_write(MCP_ADDR_W);
-	i2c_write(side);
-
-	switch (num) {
-		default:
-			i2c_write(0x40); break;
-	}
-
-	i2c_stop();
-}
-
-// Write Time
-void write_time(int time) {
-	//int tens_place = temp/10;
-	//write_num(tens_place, MCP_GPIOB);
-
-	//int ones_place = temp%10;
-	//write_num(ones_place, MCP_GPIOA);
-}
-
 int button_press() {
 	int data;
 	i2c_start();
@@ -464,8 +440,6 @@ void set_time(){
 	HOUR = cur_hour;
 	CCR |= (1 << 0); // time counter is enabled so it may be initialized
 }
-
-
 
 int main(void) {
 	setup();
