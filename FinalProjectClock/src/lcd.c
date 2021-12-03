@@ -1,3 +1,11 @@
+/*
+===============================================================================
+ Name        : lcd.c
+ Author      : Sarah Brown
+ Description : Various functions for use of the lcd display
+===============================================================================
+*/
+
 #include "define.h"
 
 void lcd_write(int command, int isData) {
@@ -46,6 +54,7 @@ void lcd_write(int command, int isData) {
 	wait_ticks(500);
 }
 
+
 void lcd_init() {
 	wait_ticks(20000); // wait 4ms after control signals and data signals are configured (configured in i2c setup)
 	lcd_write(0x38, COMMAND); // selects full 8-bit bus and 2 line display
@@ -72,4 +81,3 @@ void display_digits(int time_unit) {
 	display_char(time_unit/10 + '0');
 	display_char(time_unit%10 + '0');
 }
-

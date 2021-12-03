@@ -1,4 +1,13 @@
+/*
+===============================================================================
+ Name        : timer.c
+ Author      : Sarah Brown
+ Description : Various functions for use of rit and rtc
+===============================================================================
+*/
+
 #include "define.h"
+
 extern int dac_waveup;
 extern int wave_amp;
 extern int counter;
@@ -48,7 +57,6 @@ void rit_init() {
 	RICOMP = freq;
 	RICTRL |= (1<<3) | (1<<1);
 	RICOUNTER = 0;
-	ISER0 |= (1<<29);
 }
 
 void rit_enable() {

@@ -38,7 +38,7 @@
 
 #define DAC_PIN 20 // pin p0.26
 #define AD0_PIN 14 // pin p0.23
-#define BUTTON_PIN 21 // P0.22
+#define BUTTON_PIN 21 // P0.21
 #define LED_PIN 17 // P0.17
 
 #define LIGHT_THRESH_OFF 300

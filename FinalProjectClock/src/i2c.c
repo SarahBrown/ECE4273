@@ -1,5 +1,12 @@
-#include "define.h"
+/*
+===============================================================================
+ Name        : i2c.c
+ Author      : Sarah Brown
+ Description : Various functions for use of i2c
+===============================================================================
+*/
 
+#include "define.h"
 
 // I2C Start
 void i2c_start() {
@@ -46,6 +53,7 @@ void i2c_stop() {
     while (((I2C_CONSET >> 4) & 1) == 0) {} // wait for STO bit to return to 1
 }
 
+// I2C Init
 void i2c_init() {
 	PINSEL1 |= (1 << 22); PINSEL1 |= (1 << 24); // sets scl and sda
 

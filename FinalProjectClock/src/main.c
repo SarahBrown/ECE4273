@@ -1,10 +1,8 @@
 /*
 ===============================================================================
- Name        : FinalProjectClock.c
- Author      : $(author)
- Version     :
- Copyright   : $(copyright)
- Description : main definition
+ Name        : main.c
+ Author      : Sarah Brown
+ Description : Main definition and control for clock
 ===============================================================================
 */
 
@@ -19,29 +17,31 @@ int freq = 0;
 int stopwatch_status = FALSE;
 int stopwatch_counter = 0;
 
-
+// setup function to perform various inits
 void setup() {
 	clk_init();
-	//rit_init();
-	//dac_init();
+	rit_init();
+	dac_init();
 	i2c_init();
 	lcd_init();
 	rtc_enable();
 	alarm_init();
-	wait_ticks(500);
+	FIO0DIR |= (1 << SPEAKER_EN_PIN); // set speaker enable pin to output
+	disable_speaker(); // turns off speaker so it does not produce unwanted noise
+	wait_ticks(500); // to ensure proper setup
 }
 
 int main(void) {
-	setup();
+	setup(); // calls setup function
 
     while(1) {
-    	button = button_press();
-    	if (cur_mode == ALARM) {
-    		alarm_display();
+    	button = button_press(); // updates button status
+    	if (cur_mode == ALARM) { // if the alarm interrupt was triggered
+    		alarm_display(); // go to alarm display
     	}
 
     	else {
-			cur_mode = which_button(button, prev_button);
+			cur_mode = which_button(button, prev_button); // updates current mode based on button and prev button status
 
 			switch(cur_mode){
 				case MAIN_DISPLAY:
@@ -64,6 +64,6 @@ int main(void) {
 					break;
 			}
     	}
-    	prev_button = button;
+    	prev_button = button; // updates prev button
     }
 }

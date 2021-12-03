@@ -1,3 +1,11 @@
+/*
+===============================================================================
+ Name        : display.c
+ Author      : Sarah Brown
+ Description : Various functions to control lcd display output
+===============================================================================
+*/
+
 #include "define.h"
 extern int cur_mode;
 extern int alarm_status;
@@ -5,6 +13,7 @@ extern int button; extern int prev_button;
 extern int stopwatch_status ;
 extern int stopwatch_counter;
 
+// main clock display
 void main_display() {
 	int cur_sec = SEC;
 	int cur_min = MIN;
@@ -19,23 +28,24 @@ void main_display() {
 	display_digits(cur_sec);
 
 	lcd_write(0x94, COMMAND); // move cursor to line 3
-	display_string("Time:  B1 Alarm:  B2");
+	display_string("B: Time     W: Alarm");
 	lcd_write(0xD4, COMMAND); // move cursor to line 4
-	display_string("Timer: B3 Chimes: B4");
+	display_string("G: Stopwatch");
 }
 
+// display for setting time
 void set_time(){
 	lcd_write(0x01, COMMAND); // clear display
 	CCR &= ~(0 << 0); // time counter is disabled so it may be initialized
 	int cur_sec = SEC; int cur_min = MIN; int cur_hour = HOUR;
 
-	while (((button >> SET_TIME) & 1) == PRESSED) {
+	while (((button >> SET_TIME) & 1) == PRESSED) { // waits for button to be released from entering function
 		button = button_press();
 	}
 
 	int increment_time = which_button(button, prev_button);
 
-	while (increment_time != RED) {
+	while (increment_time != RED) { // red button to exit back to main display
 		switch (increment_time) {
 			case SET_SECOND:
 				cur_sec++;
@@ -75,13 +85,13 @@ void set_alarm() {
 	lcd_write(0x01, COMMAND); // clear display
 	int alarm_min = ALMIN; int alarm_hour = ALHOUR;
 
-	while (((button >> SET_ALARM) & 1) == PRESSED) {
+	while (((button >> SET_ALARM) & 1) == PRESSED) { // waits for button to be released from entering function
 		button = button_press();
 	}
 
 	int increment_time = which_button(button, prev_button);
 
-	while (increment_time != RED) {
+	while (increment_time != RED) {  // red button to exit back to main display
 		switch (increment_time) {
 			case BLUE:
 				toggle_alarm();
@@ -117,13 +127,17 @@ void set_alarm() {
 
 void alarm_display() {
 	lcd_write(0x01, COMMAND); // clear display
+	lcd_write(0x80, COMMAND); // move cursor to line 1
+	display_string("ALARM ALARM ALARM");
+	//play_song_pokemon();
+	play_song_oklahoma();
 
 	prev_button = button;
 	button = button_press();
 
 	int check_button = which_button(button, prev_button);
 
-	while (check_button != RED) {
+	while (check_button != RED) {  // red button to exit back to main display
 		lcd_write(0x80, COMMAND); // move cursor to line 1
 		display_string("ALARM ALARM ALARM");
 
@@ -140,13 +154,13 @@ void stopwatch_display() {
 	lcd_write(0x01, COMMAND); // clear display
 	int stopwatch_min = 0; int stopwatch_hour = 0;
 
-	while (((button >> STOPWATCH) & 1) == PRESSED) {
+	while (((button >> STOPWATCH) & 1) == PRESSED) { // waits for button to be released from entering function
 		button = button_press();
 	}
 
 	int check_button = which_button(button, prev_button);
 
-	while (check_button != RED) {
+	while (check_button != RED) {  // red button to exit back to main display
 		switch (check_button) {
 			case BLUE:
 				stopwatch_status = !stopwatch_status;
@@ -167,7 +181,7 @@ void stopwatch_display() {
 		}
 
 		if (stopwatch_hour == 24) {
-			stopwatch_hour == 0;
+			stopwatch_hour = 0;
 		}
 
 		lcd_write(0x80, COMMAND); // move cursor to line 1

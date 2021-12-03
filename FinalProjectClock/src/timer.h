@@ -1,3 +1,11 @@
+/*
+===============================================================================
+ Name        : timer.h
+ Author      : Sarah Brown
+ Description : Header for rit and rtc functions
+===============================================================================
+*/
+
 void clk_init();
 void rit_init();
 void rit_enable();
