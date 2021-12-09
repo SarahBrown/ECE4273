@@ -102,7 +102,7 @@ void set_alarm() {
 				break;
 			case SET_HOUR: // green
 				alarm_hour++;
-				if (alarm_hour > 59) alarm_hour=0;
+				if (alarm_hour > 23) alarm_hour=0;
 				break;
 		}
 		lcd_write(0x80, COMMAND); // move cursor to line 1
@@ -167,20 +167,22 @@ void stopwatch_display() {
 				break;
 			case WHITE:
 				stopwatch_counter = 0;
+				stopwatch_min = 0;
+				stopwatch_hour = 0;
 				break;
 		}
 
-		if (stopwatch_counter == 60) {
+		if (stopwatch_counter > 59) {
 			stopwatch_counter = 0;
 			stopwatch_min++;
 		}
 
-		if (stopwatch_min == 60) {
+		if (stopwatch_min > 59) {
 			stopwatch_min = 0;
 			stopwatch_hour++;
 		}
 
-		if (stopwatch_hour == 24) {
+		if (stopwatch_hour > 23) {
 			stopwatch_hour = 0;
 		}
 
